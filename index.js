@@ -8,6 +8,7 @@ async function main () {
             type: 'input',
             name: 'text',
             message: 'Enter up to 3 characters for your logo',
+            validate: input => input.length <= 3
         },
         {
             type: 'input',
@@ -18,7 +19,7 @@ async function main () {
             type: 'list',
             name: 'shape',
             message: 'Choose your logos shape',
-            choices: ['triangle','circle','square']
+            choices: ['Triangle','Circle','Square']
         },
         {
             type: 'input',
@@ -28,9 +29,9 @@ async function main () {
     ])
 
     const shapeChoices = {
-        triangle: Triangle,
-        circle: Circle,
-        square: Square,
+        Triangle: Triangle,
+        Circle: Circle,
+        Square: Square,
     }
 
     const ShapeClass = shapeChoices[answers.shape]
@@ -41,6 +42,11 @@ async function main () {
     <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="${answers.textColor}" font-size="50">${answers.text}</text>
     </svg>`
 
-    fs.writeFile('./examples/logo.svg', svgLogo, (err) => console.log(err))
+    fs.writeFile('./examples/logo.svg', svgLogo, (err) => {
+        if (err) {
+            console.error(err)
+        }
+        console.log("Generated logo.svg")
+    })
 }
 main()
